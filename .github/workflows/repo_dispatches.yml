@@ -1,0 +1,19 @@
+name: Repo Dispatches Workflow
+
+on:
+  repository_dispatch:
+    types: [command]
+    
+
+jobs:
+  execute-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout/@v1
+
+      - name: Add GitHub Token
+        run:  echo "${{ github.token }}" > ./.github-token && cat ./.github-token
+
+      - name: Invoke github-bot with command
+        run: node ./index.js ${{ github.event.client_payload.command }}
