@@ -22,7 +22,7 @@ jobs:
       - name: Extract JIRA Issue Number from PR Title
         id: jiraid
         run: |
-          node -e 'console.log("${{ steps.prtitle.outputs.PR_TITLE }}")'
+          node -e 'console.log("${{ steps.prtitle.outputs.PR_TITLE }}".replace(/(\s+)/g, " ").split(" ")[0])'
 
       - name: Verify Format & Matches Title
         uses: gsactions/commit-message-checker@v1
