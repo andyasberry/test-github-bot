@@ -24,11 +24,12 @@ jobs:
         run: |
           JIRA_ID=$(node -e 'console.log("${{ steps.prtitle.outputs.PR_TITLE }}".replace(/(\s+)/g, " ").split(" ")[0])')
           echo "$JIRA_ID"
+          echo "##[set-output name=JIRA_ID;]$JIRA_ID"
 
       - name: Verify Format & Matches Title
         uses: gsactions/commit-message-checker@v1
         with:
-          pattern: '^[a-zA-Z0-9]+\-[0-9]+ .+'
+          pattern: '^${{ steps.jiraid.outputs.JIRA_ID }} .+'
           error: 'Your first line must contain a Jira Id. Ex: "ABC-123 Example commit"'
           excludeDescription: 'true' # optional: this excludes the description body of a pull request
           excludeTitle: 'true' # optional: this excludes the title of a pull request
