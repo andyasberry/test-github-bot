@@ -11,12 +11,13 @@ jobs:
         id: jira-issue
         run: |
           PR_TITLE=${{ github.context.payload.pull_request.title }}
-          echo PR_TITLE
+          echo $PR_TITLE
 
       - name: Verify Format & Matches Title
         uses: gsactions/commit-message-checker@v1
         with:
           pattern: '^[a-zA-Z0-9]+\-[0-9]+ .+'
+          error: 'Your first line has to contain a Jira Id like "ABC-123 Example commit"'
           excludeDescription: 'true' # optional: this excludes the description body of a pull request
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
