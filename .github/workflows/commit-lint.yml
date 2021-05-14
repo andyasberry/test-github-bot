@@ -22,7 +22,7 @@ jobs:
       - name: Extract JIRA Issue Number from PR Title
         id: jiraid
         run: |
-          JIRA_ID=node -e 'console.log("${{ steps.prtitle.outputs.PR_TITLE }}".replace(/(\s+)/g, " ").split(" ")[0])'
+          JIRA_ID=$(node -e 'console.log("${{ steps.prtitle.outputs.PR_TITLE }}".replace(/(\s+)/g, " ").split(" ")[0])')
           echo "$JIRA_ID"
 
       - name: Verify Format & Matches Title
