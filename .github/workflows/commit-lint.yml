@@ -30,9 +30,8 @@ jobs:
         uses: gsactions/commit-message-checker@v1
         with:
           pattern: '^${{ steps.jiraid.outputs.JIRA_ID }} .+'
-          error: 'Your first line must contain a Jira Id. Ex: "ABC-123 Example commit"'
+          error: "Your first line must contain a Jira Id. Ex: '${{ steps.jiraid.outputs.JIRA_ID }} Example commit'"
           excludeDescription: 'true' # optional: this excludes the description body of a pull request
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
-          
