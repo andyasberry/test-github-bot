@@ -10,8 +10,8 @@ jobs:
       - name: Get JIRA Issue Number from PR Title
         id: jira-issue
         run: |
-          PR_TITLE=${{ github.context.payload.pull_request.title }}
-          echo $PR_TITLE
+          PR_TITLE=${{ github.event.pull_request.title }}
+          echo "$PR_TITLE"
 
       - name: Verify Format & Matches Title
         uses: gsactions/commit-message-checker@v1
