@@ -1,0 +1,23 @@
+name: Verify PR
+on: [pull_request]
+
+jobs:
+  check-commit-messages:
+    name: Commit Lint
+    # needs: jira-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get JIRA Issue Number from PR Title
+        id: jira-issue
+        run: |
+          PR_TITLE=${{ github.context.payload.pull_request.title }}
+          echo PR_TITLE
+
+      - name: Verify Format & Matches Title
+        uses: gsactions/commit-message-checker@v1
+        with:
+          pattern: '^[a-zA-Z0-9]+\-[0-9]+ .+'
+          excludeDescription: 'true' # optional: this excludes the description body of a pull request
+          excludeTitle: 'true' # optional: this excludes the title of a pull request
+          checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
+          accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
