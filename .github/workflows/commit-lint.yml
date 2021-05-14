@@ -7,17 +7,26 @@ jobs:
     # needs: jira-lint
     runs-on: ubuntu-latest
     steps:
-      - name: Get JIRA Issue Number from PR Title
-        id: jira-issue
+      - name: Get PR Title
+        id: prtitle
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "$PR_TITLE"
+          echo "##[set-output name=PR_TITLE;]$PR_TITLE"
+
+      - name: Extract JIRA Issue Number from PR Title
+        id: jiraid
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+        run: |
+          node -e 'console.log(${{ steps.prtitle.outputs.PR_TITLE }})'
 
       - name: Verify Format & Matches Title
         uses: gsactions/commit-message-checker@v1
         with:
           pattern: '^[a-zA-Z0-9]+\-[0-9]+ .+'
-          error: 'Your first line has to contain a Jira Id like "ABC-123 Example commit"'
+          error: 'Your first line must contain a Jira Id. Ex: "ABC-123 Example commit"'
           excludeDescription: 'true' # optional: this excludes the description body of a pull request
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
